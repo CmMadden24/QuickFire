@@ -328,11 +328,11 @@ input,textarea,select{font-size:16px}
 .nim-status{text-align:center;font-size:15px;font-weight:700;color:#fff;min-height:24px;margin:2px 0 8px}
 .nim-status small{display:block;font-size:12px;font-weight:500;color:var(--text-muted)}
 .nim-board{display:flex;flex-direction:column;gap:6px;padding:12px 8px 10px;border-radius:14px;background:radial-gradient(120% 90% at 50% 0%,#2b2218 0%,#1a140e 70%);border:1px solid #3a2e20;box-shadow:inset 0 2px 18px rgba(0,0,0,.55)}
-.nim-row{display:flex;align-items:flex-end;gap:8px;min-height:56px;padding:2px 0;border-bottom:1px dashed rgba(255,255,255,.07)}
+.nim-row{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:8px;min-height:56px;padding:2px 0;border-bottom:1px dashed rgba(255,255,255,.07)}
 .nim-row:last-child{border-bottom:0}
-.nim-badge{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#e7d6bb;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px;padding:0}
-.nim-sticks{flex:1;display:flex;gap:2px;justify-content:flex-start;align-items:flex-end;min-height:56px}
-.nim-stick{position:relative;flex:0 1 30px;min-width:0;height:clamp(52px,9.5vh,84px);padding:0;border:0;background:none;cursor:pointer;transition:transform .16s ease,filter .16s;-webkit-tap-highlight-color:transparent}
+.nim-badge{position:absolute;left:0;bottom:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#e7d6bb;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px;padding:0}
+.nim-sticks{flex:none;display:flex;gap:2px;justify-content:center;align-items:flex-end;min-height:56px}
+.nim-stick{position:relative;flex:none;width:clamp(20px,6.6vw,30px);min-width:0;height:clamp(52px,9.5vh,84px);padding:0;border:0;background:none;cursor:pointer;transition:transform .16s ease,filter .16s;-webkit-tap-highlight-color:transparent}
 .nim-stick svg{width:100%;height:100%;display:block;filter:drop-shadow(0 3px 2px rgba(0,0,0,.5))}
 .nim-stick.sel{transform:translateY(-9px);filter:drop-shadow(0 0 7px rgba(255,190,80,.95))}
 .nim-stick.hint{animation:nimhint 1s ease-in-out infinite}
@@ -3605,7 +3605,7 @@ input,textarea,select{font-size:16px}
     var c = nimCfg; c.lv = nNum(c.lv, 0, 4, 2);
     var p = nimLayout(c);
     if (!p) { var f = $('nim-setup-body'); if (!$('nim-err')) f.insertAdjacentHTML('beforeend', '<div class="fine" id="nim-err" style="color:#ff7b72">Enter 1 to 6 rows of 1 to 15 sticks, like 2,4,6,8.</div>'); return; }
-    nSave('nim', c); nimStart(JSON.parse(JSON.stringify(c)), p);
+    nSave('nim', c); nimStart(JSON.parse(JSON.stringify(c)), p.slice().sort(function (x, y) { return x - y; }));
   });
   $('nim-train').addEventListener('click', function () { nSave('nim', nimCfg); nimTrainStart(); });
 
@@ -3728,7 +3728,7 @@ input,textarea,select{font-size:16px}
     else if (a === 'none') nimTrainAnswer(true);
     else if (a === 'hint') nimHint();
     else if (a === 'next') nimTrainNext();
-    else if (a === 'again') { if (nm.mode === 'train') nimTrainStart(); else { var p = nimLayout(nm.cfg) || NIM_LAY.classic.slice(); nimStart(nm.cfg, p); } }
+    else if (a === 'again') { if (nm.mode === 'train') nimTrainStart(); else { var p = (nimLayout(nm.cfg) || NIM_LAY.classic.slice()).sort(function (x, y) { return x - y; }); nimStart(nm.cfg, p); } }
     else if (a === 'setup') { nimStop(); openNimSetup(); }
   });
   function nimHint() {
@@ -3747,7 +3747,7 @@ input,textarea,select{font-size:16px}
       var n = 3 + rand(2), p = [], i;
       if (Math.random() < 0.25) { var a = 1 + rand(9), b = 1 + rand(9), c = a ^ b; if (c < 1 || c > 9) continue; p = [a, b, c]; if (n === 4) { p.push(1 + rand(9)); p.push(p[3]); p.pop(); p = shuffle([a, b, c]); } }
       else { for (i = 0; i < n; i++) p.push(1 + rand(9)); if (!nimSum(p)) continue; }
-      return shuffle(p);
+      return p.sort(function (x, y) { return x - y; });
     }
     return [3, 4, 5];
   }
