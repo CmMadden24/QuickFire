@@ -323,6 +323,34 @@ input,textarea,select{font-size:16px}
 #br-sub{font-size:14px;color:var(--text-muted);max-width:300px;line-height:1.5}
 #br-btn{opacity:0;pointer-events:none;transition:opacity .6s;max-width:260px}
 #br-btn.on{opacity:1;pointer-events:auto}
+
+/* nim + glance */
+.nim-status{text-align:center;font-size:15px;font-weight:700;color:#fff;min-height:24px;margin:2px 0 8px}
+.nim-status small{display:block;font-size:12px;font-weight:500;color:var(--text-muted)}
+.nim-board{display:flex;flex-direction:column;gap:6px;padding:12px 8px 10px;border-radius:14px;background:radial-gradient(120% 90% at 50% 0%,#2b2218 0%,#1a140e 70%);border:1px solid #3a2e20;box-shadow:inset 0 2px 18px rgba(0,0,0,.55)}
+.nim-row{display:flex;align-items:flex-end;gap:8px;min-height:56px;padding:2px 0;border-bottom:1px dashed rgba(255,255,255,.07)}
+.nim-row:last-child{border-bottom:0}
+.nim-badge{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#e7d6bb;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px;padding:0}
+.nim-sticks{flex:1;display:flex;gap:2px;justify-content:flex-start;align-items:flex-end;min-height:56px}
+.nim-stick{position:relative;flex:0 1 30px;min-width:0;height:clamp(52px,9.5vh,84px);padding:0;border:0;background:none;cursor:pointer;transition:transform .16s ease,filter .16s;-webkit-tap-highlight-color:transparent}
+.nim-stick svg{width:100%;height:100%;display:block;filter:drop-shadow(0 3px 2px rgba(0,0,0,.5))}
+.nim-stick.sel{transform:translateY(-9px);filter:drop-shadow(0 0 7px rgba(255,190,80,.95))}
+.nim-stick.hint{animation:nimhint 1s ease-in-out infinite}
+.nim-stick.cpu{transform:translateY(-9px);filter:drop-shadow(0 0 8px rgba(88,166,255,.95))}
+.nim-stick.gone{animation:nimgone .42s ease-in forwards;pointer-events:none}
+@keyframes nimhint{0%,100%{filter:drop-shadow(0 0 3px rgba(86,211,100,.5))}50%{filter:drop-shadow(0 0 10px rgba(86,211,100,1))}}
+@keyframes nimgone{0%{transform:translateY(-9px);opacity:1}35%{transform:translateY(-16px) scale(1.12);opacity:1;filter:drop-shadow(0 0 12px rgba(255,150,60,1))}100%{transform:translateY(-44px) scale(.7);opacity:0}}
+.nim-empty{color:rgba(231,214,187,.35);font-size:12px;align-self:center;padding-bottom:6px}
+.nim-bin{margin-top:10px;background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--text-muted)}
+.nim-bin .bl{display:flex;justify-content:space-between;padding:2px 0}.nim-bin .sum{border-top:1px solid var(--border);margin-top:4px;padding-top:5px;color:#fff;font-weight:700}
+.nim-bin .z{color:#56d364}.nim-bin .nz{color:#ffb454}
+.nim-board+.gm-msg,.nim-bin+.gm-msg{margin-top:10px}
+.gl-stage{position:relative;width:100%;aspect-ratio:360/290;border-radius:14px;overflow:hidden;background:#0e1219;border:1px solid var(--border);margin:6px 0 10px}
+.gl-stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gl-cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:radial-gradient(circle at 50% 45%,#1a2234,#0b0f17);color:#c9d1d9;font-size:15px;text-align:center;padding:12px}
+.gl-cover b{font-size:30px;color:#fff}
+.gl-grp{fill-opacity:.2;stroke-opacity:.8;stroke-width:1.2}
+.gl-lbl{font-size:12px;font-weight:700;fill:#fff;paint-order:stroke;stroke:#000;stroke-width:2.5px;text-anchor:middle}
 </style>
 </head>
 <body>
@@ -605,6 +633,21 @@ input,textarea,select{font-size:16px}
   <button class="secondary-btn" id="sp-back">&larr; Back to Extras</button>
 </div>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="ns-wood" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#f0cf96"/><stop offset=".5" stop-color="#d6a566"/><stop offset="1" stop-color="#a87238"/></linearGradient>
+<radialGradient id="ns-head" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ff9a66"/><stop offset=".55" stop-color="#e5412d"/><stop offset="1" stop-color="#7d170e"/></radialGradient>
+<symbol id="gi-person" viewBox="-10 -10 20 20"><ellipse cx="0" cy="3.2" rx="8.2" ry="5" fill="currentColor"/><circle cx="0" cy="-2.6" r="4.3" fill="#f0c8a0" stroke="rgba(0,0,0,.4)" stroke-width=".6"/><path d="M-4 -4.2 Q0 -8.4 4 -4.2 Q0 -5.6 -4 -4.2Z" fill="#3a2a20"/></symbol>
+<symbol id="gi-sheep" viewBox="-10 -10 20 20"><ellipse cx="6.6" cy="0" rx="3.1" ry="2.4" fill="#2d2a2a"/><circle cx="-4.4" cy="-2.4" r="4.2" fill="#f4f1ea"/><circle cx="-4.4" cy="2.6" r="4.2" fill="#f4f1ea"/><circle cx="0" cy="0" r="4.8" fill="#fbf9f4"/><circle cx="2.4" cy="-1.2" r="3.2" fill="#f4f1ea"/><circle cx="2.4" cy="1.4" r="3.2" fill="#f4f1ea"/></symbol>
+<symbol id="gi-bird" viewBox="-10 -10 20 20"><path d="M-9.4 -2.4 Q-4.4 -8.2 0 0.2 Q4.4 -8.2 9.4 -2.4 Q4.6 -3.4 0 4.6 Q-4.6 -3.4 -9.4 -2.4Z" fill="currentColor"/></symbol>
+<symbol id="gi-coin" viewBox="-10 -10 20 20"><circle r="8.6" fill="currentColor" stroke="rgba(0,0,0,.45)" stroke-width="1"/><circle r="5.6" fill="none" stroke="rgba(0,0,0,.3)" stroke-width=".9"/><path d="M-2 -2.6 L0 -4.4 L0 4.2" fill="none" stroke="rgba(0,0,0,.38)" stroke-width="1.1" stroke-linecap="round"/></symbol>
+<symbol id="gi-leaf" viewBox="-10 -10 20 20"><path d="M0 -9.4 C8.6 -4 8.6 5 0 9.4 C-8.6 5 -8.6 -4 0 -9.4Z" fill="currentColor"/><path d="M0 -8 L0 9.4 M0 -2 L4 -5 M0 3 L-4 0" stroke="rgba(0,0,0,.3)" stroke-width=".8" fill="none"/></symbol>
+<symbol id="gi-star" viewBox="-10 -10 20 20"><path d="M0 -9.4 L2.5 -3 L9.4 -2.7 L4 1.5 L5.9 8.2 L0 4.4 L-5.9 8.2 L-4 1.5 L-9.4 -2.7 L-2.5 -3Z" fill="currentColor"/></symbol>
+<symbol id="gi-match" viewBox="-10 -10 20 20"><rect x="-8.8" y="-1.1" width="14" height="2.2" rx="1.1" fill="#d9ab6c"/><circle cx="7" cy="0" r="2.7" fill="#e5412d"/><circle cx="6.2" cy="-.9" r=".9" fill="rgba(255,255,255,.5)"/></symbol>
+<symbol id="gi-balloon" viewBox="-10 -10 20 20"><path d="M0 4.4 Q-1.6 7 .8 9.6" stroke="rgba(255,255,255,.55)" stroke-width=".7" fill="none"/><ellipse cx="0" cy="-2.4" rx="5.6" ry="6.8" fill="currentColor"/><path d="M-1.2 4.2 L1.2 4.2 L0 5.6Z" fill="currentColor"/><ellipse cx="-2" cy="-5" rx="1.3" ry="2" fill="rgba(255,255,255,.45)"/></symbol>
+<symbol id="gi-car" viewBox="-10 -10 20 20"><rect x="-4.6" y="-9" width="9.2" height="18" rx="3" fill="currentColor" stroke="rgba(0,0,0,.4)" stroke-width=".6"/><rect x="-3.4" y="-5" width="6.8" height="3.2" rx="1" fill="rgba(20,30,50,.75)"/><rect x="-3.4" y="2.6" width="6.8" height="2.6" rx="1" fill="rgba(20,30,50,.75)"/></symbol>
+<symbol id="gi-apple" viewBox="-10 -10 20 20"><circle cx="-2.6" cy=".6" r="6" fill="currentColor"/><circle cx="2.6" cy=".6" r="6" fill="currentColor"/><path d="M0 -4.6 L.6 -8.4" stroke="#5a3b1e" stroke-width="1.1" stroke-linecap="round"/><path d="M.8 -6.2 Q4.4 -9.2 6.6 -6.4 Q3 -4.6 .8 -6.2Z" fill="#4c9a3f"/></symbol>
+<symbol id="gi-dot" viewBox="-10 -10 20 20"><circle r="6.4" fill="currentColor"/><circle cx="-2" cy="-2" r="2" fill="rgba(255,255,255,.35)"/></symbol>
+</defs></svg>
 <!-- GAMES -->
 <div class="card hidden" id="gm-hub-view">
   <h2>Games</h2>
@@ -631,6 +674,47 @@ input,textarea,select{font-size:16px}
   <input type="text" class="input-box hidden" id="gm-input" inputmode="numeric" enterkeyhint="done" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">
   <div id="gm-pad"></div>
   <div class="row2 wrapact" id="gm-actions"></div>
+</div>
+
+<!-- NIM -->
+<div class="card hidden" id="nim-setup-view">
+  <h2>Nim</h2>
+  <div class="fine" style="text-align:left;margin-bottom:12px">Take turns removing matchsticks from <b>one row</b>. You may take as many as you like from that row, but at least one. Whoever takes the <b>last stick wins</b>.</div>
+  <div id="nim-setup-body"></div>
+  <button class="primary-btn" id="nim-start" style="margin-top:6px">Play</button>
+  <button class="secondary-btn" id="nim-train">Trainer: find the winning move</button>
+  <button class="secondary-btn" id="nim-setup-back">&larr; Back</button>
+</div>
+<div class="card hidden" id="nim-view">
+  <div class="header-stats">
+    <button class="metric" id="nim-end">&larr; End</button>
+    <span class="metric" id="nim-info">&nbsp;</span>
+    <button class="metric" id="nim-bin-btn">Nim-sum</button>
+  </div>
+  <div class="nim-status" id="nim-status"></div>
+  <div class="nim-board" id="nim-board"></div>
+  <div class="nim-bin hidden" id="nim-bin"></div>
+  <div class="gm-msg" id="nim-msg"></div>
+  <div class="row2 wrapact" id="nim-actions"></div>
+</div>
+<!-- GLANCE COUNT -->
+<div class="card hidden" id="gl-setup-view">
+  <h2>Glance count</h2>
+  <div class="fine" style="text-align:left;margin-bottom:12px">A picture flashes for a moment. Estimate the total by seeing it in chunks, not counting one by one. Every round is different: how many, what, and how they are scattered.</div>
+  <div id="gl-setup-body"></div>
+  <button class="primary-btn" id="gl-start" style="margin-top:6px">Start</button>
+  <button class="secondary-btn" id="gl-setup-back">&larr; Back</button>
+</div>
+<div class="card hidden" id="gl-view">
+  <div class="header-stats">
+    <button class="metric" id="gl-end">&larr; End</button>
+    <span class="metric" id="gl-info">&nbsp;</span>
+    <span class="metric" id="gl-score">--</span>
+  </div>
+  <div class="gl-stage" id="gl-stage"></div>
+  <div class="gm-msg" id="gl-msg"></div>
+  <input type="text" class="input-box hidden" id="gl-input" inputmode="numeric" enterkeyhint="done" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Your total">
+  <div class="row2 wrapact" id="gl-actions"></div>
 </div>
 
 <!-- REFERENCE -->
@@ -808,7 +892,7 @@ input,textarea,select{font-size:16px}
   var LS = {
     get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
   };
-  function newStore() { return { v: 3, facts: {}, history: [], best: {}, settings: {}, days: {}, intro: {}, introKeys: {}, cap: {}, extra: { cards: [], count: [], exams: [], sprint: [], ana: [], g24: [], add: [], cd: [], rom: [], pi: { known: 0, best: 0 } }, ms: {}, epoch: 0, snap: null, updated: 0 }; }
+  function newStore() { return { v: 3, facts: {}, history: [], best: {}, settings: {}, days: {}, intro: {}, introKeys: {}, cap: {}, extra: { cards: [], count: [], exams: [], sprint: [], ana: [], g24: [], add: [], cd: [], rom: [], nim: [], gl: [], pi: { known: 0, best: 0 } }, ms: {}, epoch: 0, snap: null, updated: 0 }; }
   function validStore(s) { return !!s && s.v === 3 && s.facts && typeof s.facts === 'object'; }
   function fixStore(s) {
     s.history = s.history || []; s.best = s.best || {}; s.settings = s.settings || {}; s.days = s.days || {};
@@ -827,7 +911,7 @@ input,textarea,select{font-size:16px}
       if (fr.st === 'review' && fr.S <= 0) fr.S = 1;
     }
     s.extra = s.extra || {}; s.extra.cards = s.extra.cards || []; s.extra.count = s.extra.count || []; s.extra.exams = s.extra.exams || []; s.extra.sprint = s.extra.sprint || [];
-    ['ana', 'g24', 'add', 'cd', 'rom'].forEach(function (g) { s.extra[g] = s.extra[g] || []; });
+    ['ana', 'g24', 'add', 'cd', 'rom', 'nim', 'gl'].forEach(function (g) { s.extra[g] = s.extra[g] || []; });
     s.extra.pi = s.extra.pi || {}; s.extra.pi.known = s.extra.pi.known || 0; s.extra.pi.best = s.extra.pi.best || 0;
     return s;
   }
@@ -890,7 +974,7 @@ input,textarea,select{font-size:16px}
     [a.cap, b.cap].forEach(function (src) {
       for (d in (src || {})) { out.cap[d] = out.cap[d] || {}; for (m in src[d]) out.cap[d][m] = Math.max(out.cap[d][m] || 0, src[d][m]); }
     });
-    ['cards', 'count', 'exams', 'sprint', 'ana', 'g24', 'add', 'cd', 'rom'].forEach(function (nm) {
+    ['cards', 'count', 'exams', 'sprint', 'ana', 'g24', 'add', 'cd', 'rom', 'nim', 'gl'].forEach(function (nm) {
       var sn = {}, lst = [];
       ((a.extra || {})[nm] || []).concat(((b.extra || {})[nm]) || []).forEach(function (h) { if (!sn[h.t]) { sn[h.t] = 1; lst.push(h); } });
       lst.sort(function (p, q) { return p.t - q.t; });
@@ -3370,6 +3454,7 @@ input,textarea,select{font-size:16px}
     return 'median ' + fmtS(recent) + (Math.abs(d) < 3 ? ' (steady)' : (d < 0 ? ' <i class="up">' + Math.round(-d) + '% faster</i>' : ' <i class="down">' + Math.round(d) + '% slower</i>'));
   }
   function hubStats(game) {
+    if (game === 'nim') return nimStats(); if (game === 'gl') return glStats();
     var a = store.extra[game] || [], h = '';
     if (!a.length) return '<div class="empty-note">No rounds yet.</div>';
     if (game === 'ana') {
@@ -3410,7 +3495,7 @@ input,textarea,select{font-size:16px}
   }
   $('gm-hub-body').addEventListener('click', function (e) {
     var b = e.target, g = b && b.getAttribute ? b.getAttribute('data-play') : null;
-    if (g === 'sprint') openSprintSetup(); else if (g) openGmSetup(g);
+    if (g === 'sprint') openSprintSetup(); else if (g === 'nim') openNimSetup(); else if (g === 'gl') openGlSetup(); else if (g) openGmSetup(g);
   });
   $('games-open').addEventListener('click', openGamesHub);
   $('gm-hub-back').addEventListener('click', openExtras);
@@ -3449,9 +3534,440 @@ input,textarea,select{font-size:16px}
   });
   $('gm-setup-back').addEventListener('click', function () { gmHome(gmGame); });
   $('add-open').addEventListener('click', function () { openGmSetup('add'); });
+  // ======================= NIM and GLANCE COUNT =======================
+  GM_NAMES.nim = 'Nim'; GM_NAMES.gl = 'Glance count';
+  GM_DEF.nim = { lv: 2, opp: 'cpu', first: 'you', lay: 'classic', cust: '2,4,6,8', hints: 1, bin: 0 };
+  GM_DEF.gl = { lv: 2, lo: 30, hi: 80, ms: 1000, scene: 'mix', grp: 10, aid: 0 };
+  GM_DESC.nim = 'Matchstick Nim: take any number from one row, last stick wins. Five computer levels, two players, hints, and a trainer for the winning trick.';
+  GM_DESC.gl = 'A picture flashes up: people, sheep, birds, coins and more, scattered at random. See it in chunks of 10, 15 or 20 and give the total.';
+  function nSave(g, cfg) { var gs = store.settings.gm = store.settings.gm || {}; gs[g] = JSON.parse(JSON.stringify(cfg)); save(); }
+  function nNum(v, lo, hi, def) { v = +v; return isFinite(v) ? Math.max(lo, Math.min(hi, Math.round(v))) : def; }
+  function pick(a) { return a[rand(a.length)]; }
+  function nSetupClick(e, cfg, g, render) {
+    var b = e.target; while (b && b.getAttribute && !b.getAttribute('data-set') && b.parentNode && b.id !== 'nim-setup-body') b = b.parentNode;
+    var k = b && b.getAttribute ? b.getAttribute('data-set') : null; if (!k) return;
+    var v = b.getAttribute('data-val'); cfg[k] = typeof GM_DEF[g][k] === 'number' ? +v : v; render();
+  }
+
+  // ---------------- NIM ----------------
+  var NIM_LV = [['Beginner', 0], ['Easy', 0.3], ['Medium', 0.55], ['Hard', 0.8], ['Expert', 0.93]];
+  var NIM_LAY = { classic: [1, 3, 5, 7], small: [3, 4, 5], large: [1, 2, 3, 4, 5, 6, 7] };
+  var nimCfg = null, nm = null, nimBusy = false;
+  var nBoard = $('nim-board'), nStatus = $('nim-status'), nMsg = $('nim-msg'), nActs = $('nim-actions'), nBin = $('nim-bin');
+  function nimSum(p) { var x = 0; p.forEach(function (v) { x ^= v; }); return x; }
+  function nimTotal(p) { return p.reduce(function (a, v) { return a + v; }, 0); }
+  function nimWin(p) {
+    var X = nimSum(p); if (!X) return null;
+    for (var i = 0; i < p.length; i++) { var t = p[i] ^ X; if (t < p[i]) return { r: i, k: p[i] - t }; }
+    return null;
+  }
+  function nimCpuMove(p, lv) {
+    var w = nimWin(p), rows = [];
+    p.forEach(function (v, i) { if (v > 0) rows.push(i); });
+    if (w && Math.random() < NIM_LV[lv][1]) return w;
+    var r = pick(rows);
+    if (!w) return { r: r, k: 1 + rand(Math.min(2, p[r])) };   // losing anyway: drag it out with small takes
+    return { r: r, k: 1 + rand(p[r]) };
+  }
+  function nimLayout(c) {
+    if (c.lay === 'rand') { var p; do { p = []; var n = 3 + rand(3); for (var i = 0; i < n; i++) p.push(1 + rand(9)); } while (!nimSum(p)); return p; }
+    if (c.lay === 'custom') {
+      var parts = String(c.cust).split(/[^0-9]+/).filter(Boolean).map(Number);
+      if (parts.length >= 1 && parts.length <= 6 && parts.every(function (v) { return v >= 1 && v <= 15; })) return parts;
+      return null;
+    }
+    return NIM_LAY[c.lay].slice();
+  }
+  function openNimSetup() { nimCfg = gmSettings('nim'); nimSetupRender(); showView('nim-setup-view'); }
+  function nimSetupRender() {
+    var c = nimCfg, h = '<div class="control-block"><div class="block-header">Opponent</div>' + tabsHTML('opp', ['cpu', 'two'], ['Computer', 'Two players'], c.opp);
+    if (c.opp === 'cpu') {
+      h += '<div class="block-header" style="margin-top:12px">Computer level</div>' + tabsHTML('lv', [0, 1, 2, 3, 4], NIM_LV.map(function (l) { return l[0]; }), c.lv) +
+        '<div class="block-header" style="margin-top:12px">Who goes first</div>' + tabsHTML('first', ['you', 'cpu', 'rand'], ['You', 'Computer', 'Random'], c.first);
+    }
+    h += '<div class="block-header" style="margin-top:12px">Sticks</div>' + tabsHTML('lay', ['classic', 'small', 'large', 'rand', 'custom'], ['1-3-5-7', '3-4-5', '1 to 7', 'Random', 'Custom'], c.lay);
+    if (c.lay === 'custom') h += '<div class="toggle-row" style="margin-top:12px"><span>Rows (up to 6, 1 to 15)</span><input type="text" class="num-in" id="nim-cust" style="width:130px" value="' + String(c.cust).replace(/"/g, '') + '" inputmode="numeric"></div>';
+    h += '<div class="toggle-row" style="margin-top:12px"><span>Hint button</span><input type="checkbox" id="nim-hints"' + (c.hints ? ' checked' : '') + '></div></div>';
+    var layNote = { classic: 'In 1-3-5-7 the player who moves <b>second</b> can always win with perfect play.', small: 'In 3-4-5 the player who moves <b>first</b> can force a win.', large: 'In 1 to 7 the player who moves <b>second</b> can force a win.', rand: 'Random rows, always winnable for the player who moves first.', custom: 'Your own rows. Use the Nim-sum button in the game to see who has the upper hand.' };
+    h += '<div class="fine">' + layNote[c.lay] + '</div>';
+    if (c.opp === 'cpu') h += '<div class="fine">Each level is the chance the computer finds the winning move on a turn. Expert slips about 1 turn in 14.</div>';
+    h += '<h3>Your results</h3><div class="stats-mini">' + nimStats() + '</div>';
+    $('nim-setup-body').innerHTML = h;
+  }
+  $('nim-setup-body').addEventListener('click', function (e) { nSetupClick(e, nimCfg, 'nim', nimSetupRender); });
+  $('nim-setup-body').addEventListener('input', function (e) {
+    if (e.target.id === 'nim-cust') nimCfg.cust = e.target.value;
+    if (e.target.id === 'nim-hints') nimCfg.hints = e.target.checked ? 1 : 0;
+  });
+  $('nim-setup-body').addEventListener('change', function (e) { if (e.target.id === 'nim-hints') nimCfg.hints = e.target.checked ? 1 : 0; });
+  $('nim-setup-back').addEventListener('click', openGamesHub);
+  $('nim-start').addEventListener('click', function () {
+    var c = nimCfg; c.lv = nNum(c.lv, 0, 4, 2);
+    var p = nimLayout(c);
+    if (!p) { var f = $('nim-setup-body'); if (!$('nim-err')) f.insertAdjacentHTML('beforeend', '<div class="fine" id="nim-err" style="color:#ff7b72">Enter 1 to 6 rows of 1 to 15 sticks, like 2,4,6,8.</div>'); return; }
+    nSave('nim', c); nimStart(JSON.parse(JSON.stringify(c)), p);
+  });
+  $('nim-train').addEventListener('click', function () { nSave('nim', nimCfg); nimTrainStart(); });
+
+  function nimStart(c, piles) {
+    var first = c.opp === 'two' ? 0 : (c.first === 'you' ? 0 : (c.first === 'cpu' ? 1 : rand(2)));
+    nm = { mode: 'play', cfg: c, piles: piles, turn: first, sel: null, hint: null, cpu: null, gone: null, over: false, hints: 0, mine: 0, first: first, lay: c.lay, tok: 0 };
+    nimBusy = false; showView('nim-view'); keepAwake();
+    $('nim-bin-btn').classList.remove('hidden'); $('nim-info').textContent = c.opp === 'cpu' ? NIM_LV[c.lv][0] : 'Two players';
+    nBin.classList.toggle('hidden', !c.bin); nMsg.textContent = ''; nMsg.className = 'gm-msg';
+    nimRender(); nimTurnStart();
+  }
+  function nimWho(t) { return nm.cfg.opp === 'cpu' ? (t === 0 ? 'You' : 'The computer') : 'Player ' + (t + 1); }
+  function nimHumanTurn() { return nm && !nm.over && (nm.mode === 'train' ? !nm.answered : (nm.cfg.opp === 'two' || nm.turn === 0)); }
+  function stickSVG() { return '<svg viewBox="0 0 20 112" aria-hidden="true"><rect x="7" y="20" width="6" height="88" rx="3" fill="url(#ns-wood)"/><rect x="9.2" y="22" width="1.1" height="82" rx=".5" fill="rgba(0,0,0,.12)"/><ellipse cx="10" cy="15" rx="7.2" ry="11.5" fill="url(#ns-head)"/><ellipse cx="7.4" cy="10.5" rx="2.3" ry="3.6" fill="rgba(255,255,255,.38)"/></svg>'; }
+  function nimRender() {
+    var h = '';
+    nm.piles.forEach(function (n, r) {
+      var s = '';
+      for (var i = 0; i < n; i++) {
+        var cls = 'nim-stick';
+        if (nm.sel && nm.sel.r === r && nm.sel.set[i]) cls += ' sel';
+        if (nm.hint && nm.hint.r === r && i >= n - nm.hint.k) cls += ' hint';
+        if (nm.cpu && nm.cpu.r === r && i >= n - nm.cpu.k) cls += ' cpu';
+        if (nm.gone && nm.gone.r === r && nm.gone.set[i]) cls += ' gone';
+        s += '<button class="' + cls + '" data-r="' + r + '" data-i="' + i + '" aria-label="Row ' + (r + 1) + ', stick ' + (i + 1) + '">' + stickSVG() + '</button>';
+      }
+      h += '<div class="nim-row"><button class="nim-badge" data-all="' + r + '" aria-label="Select all of row ' + (r + 1) + '">' + n + '</button><div class="nim-sticks">' + (n ? s : '<span class="nim-empty">empty</span>') + '</div></div>';
+    });
+    nBoard.innerHTML = h;
+    nimBinRender(); nimActionsRender();
+  }
+  function nimBinHTML(p) {
+    var w = Math.max(1, Math.max.apply(null, p).toString(2).length), X = nimSum(p), h = '';
+    p.forEach(function (v, i) { h += '<div class="bl"><span>Row ' + (i + 1) + '</span><span>' + v + ' = ' + ('000000'.slice(0, w) + v.toString(2)).slice(-w) + '</span></div>'; });
+    h += '<div class="bl sum"><span>Nim-sum</span><span class="' + (X ? 'nz' : 'z') + '">' + ('000000'.slice(0, w) + X.toString(2)).slice(-w) + '</span></div>';
+    h += '<div class="bl" style="font-family:inherit;font-size:12px"><span>' + (X ? 'Not zero: the player to move can win. Make it zero.' : 'Zero: the player to move is losing against perfect play.') + '</span></div>';
+    return h;
+  }
+  function nimBinRender() { if (nm && !nBin.classList.contains('hidden')) nBin.innerHTML = nimBinHTML(nm.piles); }
+  $('nim-bin-btn').addEventListener('click', function () {
+    if (!nm || nm.mode === 'train') return;
+    nBin.classList.toggle('hidden'); nm.cfg.bin = nBin.classList.contains('hidden') ? 0 : 1; nimBinRender();
+    nimCfg = gmSettings('nim'); nimCfg.bin = nm.cfg.bin; nSave('nim', nimCfg);
+  });
+  function nimSelCount() { if (!nm || !nm.sel) return 0; return Object.keys(nm.sel.set).length; }
+  function nimActionsRender() {
+    var k = nimSelCount(), can = nimHumanTurn(), a = [];
+    if (nm.over) { a = nm.mode === 'train' ? [['again', 'Train again', 'primary-btn'], ['setup', 'Back']] : [['again', 'Play again', 'primary-btn'], ['setup', 'Change setup']]; }
+    else if (nm.mode === 'train') {
+      if (nm.answered) a = [['next', nm.q >= nm.total ? 'See score' : 'Next position', 'primary-btn']];
+      else a = [['take', k ? 'Take ' + k + ' from row ' + (nm.sel.r + 1) : 'Pick sticks to take', 'primary-btn' + (k ? '' : ' dis')], ['none', 'No winning move']];
+    } else {
+      a = [['take', k ? 'Take ' + k + ' from row ' + (nm.sel.r + 1) : (can ? 'Pick sticks to take' : 'Please wait'), 'primary-btn' + (k && can ? '' : ' dis')]];
+      if (nm.cfg.hints) a.push(['hint', 'Hint', 'secondary-btn' + (can ? '' : ' dis')]);
+    }
+    nActs.innerHTML = a.map(function (x) { return '<button class="' + (x[2] || 'secondary-btn') + '" data-act="' + x[0] + '"' + (/ dis/.test(x[2] || '') ? ' disabled style="opacity:.5"' : '') + '>' + x[1] + '</button>'; }).join('');
+  }
+  function nimTurnStart() {
+    if (!nm || nm.over) return;
+    nm.sel = null; nm.hint = null;
+    if (nm.cfg.opp === 'cpu' && nm.turn === 1) {
+      nStatus.innerHTML = 'Computer is thinking…'; nimRender();
+      var tok = ++nm.tok;
+      setTimeout(function () {
+        if (!nm || nm.tok !== tok || nm.over) return;
+        var mv = nimCpuMove(nm.piles, nm.cfg.lv);
+        nm.cpu = mv; nStatus.innerHTML = 'Computer takes ' + mv.k + ' from row ' + (mv.r + 1); nimRender();
+        setTimeout(function () {
+          if (!nm || nm.tok !== tok || nm.over) return;
+          var set = {}; for (var i = nm.piles[mv.r] - mv.k; i < nm.piles[mv.r]; i++) set[i] = true;
+          nm.cpu = null; nimDoMove(mv.r, set, 1);
+        }, 800);
+      }, 600 + rand(600));
+    } else {
+      nStatus.innerHTML = nm.cfg.opp === 'cpu' ? 'Your turn' : nimWho(nm.turn) + ', your move';
+      nStatus.innerHTML += '<small>Tap sticks in one row, then take them</small>';
+      nimRender();
+    }
+  }
+  function nimDoMove(r, set, who) {
+    nimBusy = true; nm.sel = null; nm.hint = null; nm.gone = { r: r, set: set }; nMsg.textContent = ''; nimRender();
+    var tok = ++nm.tok, k = Object.keys(set).length;
+    setTimeout(function () {
+      if (!nm || nm.tok !== tok) return;
+      nm.piles[r] -= k; nm.gone = null; nimBusy = false;
+      if (who === 0 || nm.cfg.opp === 'two') nm.mine++;
+      if (nimTotal(nm.piles) === 0) { nimOver(who); return; }
+      nm.turn = 1 - nm.turn; nimTurnStart();
+    }, 440);
+  }
+  function nimOver(winner) {
+    nm.over = true; nm.sel = null; nm.hint = null;
+    var cpu = nm.cfg.opp === 'cpu', won = winner === 0;
+    nStatus.innerHTML = cpu ? (won ? 'You win! 🎉' : 'The computer wins') : nimWho(winner) + ' wins! 🎉';
+    nMsg.innerHTML = cpu ? (won ? 'You took the last stick.' : 'It took the last stick. Try the hint button or the Nim-sum view.') : 'Took the last stick.';
+    if (cpu) gmRecord('nim', { k: 'g', lv: nm.cfg.lv, lay: nm.lay, w: won ? 1 : 0, h: nm.hints, f: nm.first === 0 ? 1 : 0 });
+    nimRender(); letSleep();
+  }
+  nBoard.addEventListener('click', function (e) {
+    if (!nm || nimBusy || !nimHumanTurn()) return;
+    var b = e.target; while (b && b !== nBoard && !(b.getAttribute && (b.getAttribute('data-i') !== null || b.getAttribute('data-all') !== null))) b = b.parentNode;
+    if (!b || b === nBoard) return;
+    var all = b.getAttribute('data-all');
+    nm.hint = null; nMsg.textContent = '';
+    if (all !== null) {
+      var r = +all; if (!nm.piles[r]) return;
+      var full = nm.sel && nm.sel.r === r && nimSelCount() === nm.piles[r];
+      if (full) nm.sel = null; else { var s = {}; for (var i = 0; i < nm.piles[r]; i++) s[i] = true; nm.sel = { r: r, set: s }; }
+    } else {
+      var rr = +b.getAttribute('data-r'), ii = +b.getAttribute('data-i');
+      if (!nm.sel || nm.sel.r !== rr) nm.sel = { r: rr, set: {} };
+      if (nm.sel.set[ii]) delete nm.sel.set[ii]; else nm.sel.set[ii] = true;
+      if (!nimSelCount()) nm.sel = null;
+    }
+    nimRender();
+  });
+  nActs.addEventListener('click', function (e) {
+    var b = e.target, a = b && b.getAttribute ? b.getAttribute('data-act') : null; if (!a || b.disabled) return;
+    if (a === 'take') { if (nm.mode === 'train') nimTrainAnswer(false); else if (nimHumanTurn() && nimSelCount() && !nimBusy) nimDoMove(nm.sel.r, nm.sel.set, nm.turn); }
+    else if (a === 'none') nimTrainAnswer(true);
+    else if (a === 'hint') nimHint();
+    else if (a === 'next') nimTrainNext();
+    else if (a === 'again') { if (nm.mode === 'train') nimTrainStart(); else { var p = nimLayout(nm.cfg) || NIM_LAY.classic.slice(); nimStart(nm.cfg, p); } }
+    else if (a === 'setup') { nimStop(); openNimSetup(); }
+  });
+  function nimHint() {
+    if (!nimHumanTurn() || nimBusy) return;
+    var w = nimWin(nm.piles); nm.hints++; nm.sel = null;
+    if (w) { nm.hint = w; nMsg.innerHTML = 'Take <b>' + w.k + '</b> from <b>row ' + (w.r + 1) + '</b>. That leaves a nim-sum of 0, which hands your opponent a losing position.'; }
+    else { nm.hint = null; nMsg.innerHTML = 'No winning move here: the nim-sum is 0, so you are behind against perfect play. Take a single stick and hope for a slip.'; }
+    nimRender();
+  }
+  function nimStop() { if (nm) nm.tok++; nm = null; nimBusy = false; letSleep(); }
+  $('nim-end').addEventListener('click', function () { nimStop(); openNimSetup(); });
+
+  // ---- trainer ----
+  function nimTrainPos() {
+    for (var g = 0; g < 200; g++) {
+      var n = 3 + rand(2), p = [], i;
+      if (Math.random() < 0.25) { var a = 1 + rand(9), b = 1 + rand(9), c = a ^ b; if (c < 1 || c > 9) continue; p = [a, b, c]; if (n === 4) { p.push(1 + rand(9)); p.push(p[3]); p.pop(); p = shuffle([a, b, c]); } }
+      else { for (i = 0; i < n; i++) p.push(1 + rand(9)); if (!nimSum(p)) continue; }
+      return shuffle(p);
+    }
+    return [3, 4, 5];
+  }
+  function nimTrainStart() {
+    nm = { mode: 'train', cfg: gmSettings('nim'), piles: nimTrainPos(), sel: null, hint: null, cpu: null, gone: null, over: false, answered: false, q: 1, total: 10, ok: 0, times: [], t0: performance.now(), tok: 0 };
+    nimBusy = false; showView('nim-view'); keepAwake();
+    $('nim-bin-btn').classList.add('hidden'); nBin.classList.add('hidden'); $('nim-info').textContent = 'Trainer';
+    nMsg.textContent = ''; nimTrainShow();
+  }
+  function nimTrainShow() {
+    nm.answered = false; nm.sel = null; nm.t0 = performance.now(); nBin.classList.add('hidden'); nMsg.textContent = '';
+    nStatus.innerHTML = 'Position ' + nm.q + ' of ' + nm.total + '<small>Pick the sticks that give a winning move, or say there is none</small>';
+    nimRender();
+  }
+  function nimTrainAnswer(none) {
+    if (!nm || nm.answered) return;
+    var ms = performance.now() - nm.t0, X = nimSum(nm.piles), w = nimWin(nm.piles), ok, k = nimSelCount();
+    if (!none && !k) return;
+    if (none) ok = X === 0;
+    else { var after = nm.piles.slice(); after[nm.sel.r] -= k; ok = nimSum(after) === 0; }
+    nm.answered = true; nm.times.push(ms); if (ok) nm.ok++;
+    var why = X === 0 ? 'The nim-sum is already 0, so there is no winning move: whatever you take, perfect play wins for the other side.' : 'Winning move: take <b>' + w.k + '</b> from <b>row ' + (w.r + 1) + '</b>, which makes the nim-sum 0.';
+    nm.hint = (!ok && w) ? w : null;
+    nMsg.innerHTML = (ok ? '<b style="color:#56d364">Correct</b> · ' + (ms / 1000).toFixed(1) + 's<br>' : '<b style="color:#ff7b72">Not quite</b><br>') + why;
+    nBin.classList.remove('hidden'); nBin.innerHTML = nimBinHTML(nm.piles);
+    nm.sel = null; nimRender(); nBin.classList.remove('hidden'); nBin.innerHTML = nimBinHTML(nm.piles);
+  }
+  function nimTrainNext() {
+    if (nm.q >= nm.total) {
+      nm.over = true; var md = median(nm.times);
+      gmRecord('nim', { k: 't', n: nm.total, c: nm.ok, ms: Math.round(md) });
+      nStatus.innerHTML = 'Score ' + nm.ok + '/' + nm.total + '<small>median ' + (md / 1000).toFixed(1) + 's per position</small>';
+      nMsg.textContent = ''; nBin.classList.add('hidden'); nm.piles = []; nimRender(); letSleep(); return;
+    }
+    nm.q++; nm.piles = nimTrainPos(); nm.hint = null; nimTrainShow();
+  }
+  function nimStats() {
+    var a = store.extra.nim || [], h = '';
+    var games = a.filter(function (x) { return x.k === 'g'; }), tr = a.filter(function (x) { return x.k === 't'; });
+    if (!a.length) return '<div class="empty-note">No games yet.</div>';
+    NIM_LV.forEach(function (l, i) {
+      var r = games.filter(function (x) { return x.lv === i; }); if (!r.length) return;
+      var w = r.filter(function (x) { return x.w; }).length, nh = r.filter(function (x) { return x.h > 0; }).length;
+      h += '<div class="st-row"><b>' + l[0] + '</b><span>' + w + ' won of ' + r.length + '</span><span class="tr">' + (nh ? nh + ' game' + (nh > 1 ? 's' : '') + ' with hints' : 'no hints used') + '</span></div>';
+    });
+    if (tr.length) {
+      var acc = tr.reduce(function (p, x) { return p + x.c; }, 0) / tr.reduce(function (p, x) { return p + x.n; }, 0), ts = tr.map(function (x) { return x.ms; });
+      h += '<div class="st-row"><b>Trainer</b><span>' + Math.round(acc * 100) + '% right over ' + tr.length + ' round' + (tr.length > 1 ? 's' : '') + '</span><span class="tr">' + trendText(ts) + '</span>' + spark(ts.slice(-20)) + '</div>';
+    }
+    return h;
+  }
+
+  // ---------------- GLANCE COUNT ----------------
+  var GL_LV = [['Warm-up', 10, 25], ['Easy', 25, 40], ['Medium', 40, 70], ['Hard', 70, 110], ['Crowd', 110, 170], ['Stadium', 170, 260]];
+  var GL_SCENES = {
+    people: { name: 'People', t: ['person'], bg: ['#2b3342', '#1b2130'], col: { person: ['#58a6ff', '#d2a8ff', '#ff7b72', '#7ee787', '#f2cc60', '#79c0ff', '#ffa657', '#e6edf3', '#f778ba'] } },
+    sheep: { name: 'Sheep', t: ['sheep'], bg: ['#4b7a3c', '#33592b'], col: {} },
+    birds: { name: 'Birds', t: ['bird'], bg: ['#5a9ad6', '#2f5f9a'], col: { bird: ['#12202e', '#1d2b3a', '#2b3a4a', '#0f1822'] } },
+    stars: { name: 'Stars', t: ['star'], bg: ['#16204a', '#070b1c'], col: { star: ['#fff6c4', '#ffe58a', '#ffffff', '#cfe3ff'] } },
+    coins: { name: 'Coins', t: ['coin'], bg: ['#3d2c20', '#241912'], col: { coin: ['#f1c94d', '#d9a93a', '#c9ced6', '#b8bec8', '#c07a47'] } },
+    leaves: { name: 'Leaves', t: ['leaf'], bg: ['#23505b', '#14333b'], col: { leaf: ['#7fcf55', '#5fb04a', '#e0a030', '#d9622b', '#a3d65f'] } },
+    cars: { name: 'Cars', t: ['car'], bg: ['#3b4047', '#272b31'], col: { car: ['#ff7b72', '#58a6ff', '#e6edf3', '#f2cc60', '#7ee787', '#8b949e', '#2f3640'] } },
+    apples: { name: 'Apples', t: ['apple'], bg: ['#d8caa6', '#b9a77d'], col: { apple: ['#d6352e', '#e04a3a', '#8fc13e', '#c7d84a', '#b32a2a'] } },
+    balloons: { name: 'Balloons', t: ['balloon'], bg: ['#8cc2ee', '#5f9ad4'], col: { balloon: ['#ff5d73', '#ffd23f', '#4dd599', '#b980f0', '#ff9a3c', '#ffffff', '#3fa7ff'] } },
+    matches: { name: 'Matches', t: ['match'], bg: ['#3a2c20', '#21170f'], col: {} },
+    dots: { name: 'Dots', t: ['dot'], bg: ['#1a1f2b', '#0e121a'], col: { dot: ['#58a6ff', '#79c0ff', '#a5d6ff'] } }
+  };
+  var GL_JUMBLE_COL = { person: GL_SCENES.people.col.person, bird: ['#e6edf3', '#cfe3ff'], star: ['#fff6c4', '#ffe58a'], coin: GL_SCENES.coins.col.coin, leaf: GL_SCENES.leaves.col.leaf, car: GL_SCENES.cars.col.car, apple: GL_SCENES.apples.col.apple, balloon: GL_SCENES.balloons.col.balloon, dot: ['#58a6ff', '#7ee787'] };
+  var glCfg = null, gl = null;
+  var glStage = $('gl-stage'), glMsg = $('gl-msg'), glIn = $('gl-input'), glActs = $('gl-actions');
+  function glRange(c) { return c.lv >= 6 ? [Math.min(c.lo, c.hi), Math.max(c.lo, c.hi)] : [GL_LV[c.lv][1], GL_LV[c.lv][2]]; }
+  function openGlSetup() { glCfg = gmSettings('gl'); glSetupRender(); showView('gl-setup-view'); }
+  function glSetupRender() {
+    var c = glCfg, h = '<div class="control-block"><div class="block-header">How many</div>' +
+      tabsHTML('lv', [0, 1, 2, 3, 4, 5, 6], GL_LV.map(function (l) { return l[0] + ' ' + l[1] + '–' + l[2]; }).concat(['Custom']), c.lv);
+    if (c.lv >= 6) h += numHTML('lo', 'Fewest items', c.lo, 3, 400, 1) + numHTML('hi', 'Most items', c.hi, 3, 400, 1);
+    h += '<div class="block-header" style="margin-top:12px">Picture shows for</div>' + tabsHTML('ms', [0, 300, 500, 1000, 2000, 3000, 5000], ['Until I tap', '0.3 s', '0.5 s', '1 s', '2 s', '3 s', '5 s'], c.ms);
+    h += '<div class="block-header" style="margin-top:12px">What you see</div>' + tabsHTML('scene', ['mix', 'jumble'].concat(Object.keys(GL_SCENES)), ['Surprise me', 'Jumble'].concat(Object.keys(GL_SCENES).map(function (k) { return GL_SCENES[k].name; })), c.scene);
+    h += '<div class="block-header" style="margin-top:12px">Chunk size for the reveal</div>' + tabsHTML('grp', [5, 10, 15, 20, 25], [5, 10, 15, 20, 25], c.grp) +
+      '<div class="toggle-row" style="margin-top:12px"><span>Show the chunks during the flash (training wheels)</span><input type="checkbox" id="gl-aid"' + (c.aid ? ' checked' : '') + '></div></div>';
+    h += '<div class="fine">After each answer the picture comes back split into coloured chunks of your chosen size, so you can see how to group it next time. Jumble mixes different objects in one picture, closest to real life.</div>';
+    h += '<h3>Your results</h3><div class="stats-mini">' + glStats() + '</div>';
+    $('gl-setup-body').innerHTML = h;
+  }
+  $('gl-setup-body').addEventListener('click', function (e) {
+    var b = e.target; while (b && b.getAttribute && !b.getAttribute('data-set') && b.parentNode && b.id !== 'gl-setup-body') b = b.parentNode;
+    var k = b && b.getAttribute ? b.getAttribute('data-set') : null; if (!k) return;
+    var v = b.getAttribute('data-val'); glCfg[k] = typeof GM_DEF.gl[k] === 'number' ? +v : v; glSetupRender();
+  });
+  $('gl-setup-body').addEventListener('input', function (e) {
+    var b = e.target, k = b && b.getAttribute ? b.getAttribute('data-num') : null; if (k) glCfg[k] = +b.value;
+  });
+  $('gl-setup-body').addEventListener('change', function (e) { if (e.target.id === 'gl-aid') glCfg.aid = e.target.checked ? 1 : 0; });
+  $('gl-setup-back').addEventListener('click', openGamesHub);
+  $('gl-start').addEventListener('click', function () {
+    var c = glCfg; c.lv = nNum(c.lv, 0, 6, 2); c.lo = nNum(c.lo, 3, 400, 30); c.hi = nNum(c.hi, 3, 400, 80); if ([0, 300, 500, 1000, 2000, 3000, 5000].indexOf(+c.ms) < 0) c.ms = 1000;
+    c.grp = nNum(c.grp, 3, 50, 10);
+    nSave('gl', c); glStart(JSON.parse(JSON.stringify(c)));
+  });
+
+  // Places n items at random. The layout style changes every round so the picture can't be predicted.
+  function glGen(n, sceneKey) {
+    var W = 360, H = 290, M = 12, base = Math.max(8, Math.min(30, Math.sqrt(W * H / n) * 0.8));
+    var pat = pick(['scatter', 'clumps', 'band', 'ring', 'hole', 'scatter']), jumble = sceneKey === 'jumble', sc = jumble ? null : GL_SCENES[sceneKey];
+    var ctr = [], k, i;
+    for (i = 0, k = 2 + rand(4); i < k; i++) ctr.push([M + 40 + Math.random() * (W - 2 * M - 80), M + 40 + Math.random() * (H - 2 * M - 80), 28 + Math.random() * 40]);
+    var ang = Math.random() * Math.PI, holeC = [60 + Math.random() * 240, 60 + Math.random() * 170], holeR = 45 + Math.random() * 30;
+    function g() { return (Math.random() + Math.random() + Math.random() - 1.5) * 1.6; }
+    function sample(fallback) {
+      var x, y;
+      if (fallback || pat === 'scatter') { x = M + Math.random() * (W - 2 * M); y = M + Math.random() * (H - 2 * M); }
+      else if (pat === 'clumps') { var c = pick(ctr); x = c[0] + g() * c[2]; y = c[1] + g() * c[2]; }
+      else if (pat === 'band') { var t = (Math.random() - 0.5) * 360, o = g() * 52; x = W / 2 + Math.cos(ang) * t - Math.sin(ang) * o; y = H / 2 + Math.sin(ang) * t + Math.cos(ang) * o; }
+      else if (pat === 'ring') { var a = Math.random() * 6.283, r = 1 + g() * 0.16; x = W / 2 + Math.cos(a) * 150 * r; y = H / 2 + Math.sin(a) * 105 * r; }
+      else { x = M + Math.random() * (W - 2 * M); y = M + Math.random() * (H - 2 * M); if ((x - holeC[0]) * (x - holeC[0]) + (y - holeC[1]) * (y - holeC[1]) < holeR * holeR) return null; }
+      return (x < M || x > W - M || y < M || y > H - M) ? null : [x, y];
+    }
+    var items = [], d = base * 0.95, fails = 0;
+    while (items.length < n) {
+      var p = sample(fails > 250), okp = !!p;
+      if (p) for (var j = 0; j < items.length; j++) { var dx = items[j].x - p[0], dy = items[j].y - p[1]; if (dx * dx + dy * dy < d * d) { okp = false; break; } }
+      if (okp) { items.push({ x: p[0], y: p[1] }); fails = 0; } else if (++fails > 500) { d *= 0.93; fails = 0; }
+    }
+    var key = jumble ? null : sc.t[0];
+    items.forEach(function (it) {
+      var ty = jumble ? pick(['person', 'bird', 'star', 'coin', 'leaf', 'car', 'apple', 'balloon', 'dot']) : key;
+      var cols = jumble ? GL_JUMBLE_COL[ty] : sc.col[ty];
+      it.type = ty; it.col = cols ? pick(cols) : '#fff'; it.rot = Math.random() * 360; it.sz = base * (1.1 + Math.random() * 0.4);
+    });
+    return items;
+  }
+  function glGroups(items, g) {
+    var idx = items.map(function (_, i) { return i; }).sort(function (a, b) { return items[a].x - items[b].x; }), out = [];
+    for (var i = 0; i < idx.length; i += g) out.push(idx.slice(i, i + g));
+    return out;
+  }
+  var GL_GC = ['#ff7b72', '#58a6ff', '#7ee787', '#f2cc60', '#d2a8ff', '#ffa657', '#79c0ff', '#f778ba'];
+  function glSVG(items, scene, groups) {
+    var sc = scene === 'jumble' ? { bg: ['#39404d', '#232834'] } : GL_SCENES[scene], s = '<svg viewBox="0 0 360 290" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Scattered items to count"><defs><radialGradient id="glbg" cx=".5" cy=".4" r=".9"><stop offset="0" stop-color="' + sc.bg[0] + '"/><stop offset="1" stop-color="' + sc.bg[1] + '"/></radialGradient></defs><rect width="360" height="290" fill="url(#glbg)"/>';
+    if (groups) groups.forEach(function (gp, gi) {
+      var c = GL_GC[gi % GL_GC.length];
+      gp.forEach(function (i) { var it = items[i]; s += '<circle class="gl-grp" cx="' + it.x.toFixed(1) + '" cy="' + it.y.toFixed(1) + '" r="' + (it.sz * 0.68).toFixed(1) + '" fill="' + c + '" stroke="' + c + '"/>'; });
+    });
+    items.forEach(function (it) {
+      var h = it.sz / 2;
+      s += '<use href="#gi-' + it.type + '" x="' + (it.x - h).toFixed(1) + '" y="' + (it.y - h).toFixed(1) + '" width="' + it.sz.toFixed(1) + '" height="' + it.sz.toFixed(1) + '" transform="rotate(' + it.rot.toFixed(0) + ' ' + it.x.toFixed(1) + ' ' + it.y.toFixed(1) + ')" style="color:' + it.col + '"/>';
+    });
+    return s + '</svg>';
+  }
+  function glStart(c) {
+    gl = { cfg: c, tok: 0, rounds: 0, exact: 0, phase: 'idle', lastN: 0 };
+    showView('gl-view'); keepAwake(); glRound();
+  }
+  function glStop() { if (gl) gl.tok++; gl = null; letSleep(); }
+  function glHeader() {
+    var r = glRange(gl.cfg); $('gl-info').textContent = (gl.cfg.lv >= 6 ? 'Custom ' : GL_LV[gl.cfg.lv][0] + ' ') + r[0] + '–' + r[1];
+    $('gl-score').textContent = gl.rounds ? gl.exact + '/' + gl.rounds + ' exact' : '--';
+  }
+  function glRound() {
+    if (!gl) return;
+    var tok = ++gl.tok, c = gl.cfg, r = glRange(c), n;
+    do { n = r[0] + rand(r[1] - r[0] + 1); } while (n === gl.lastN && r[1] > r[0]);
+    gl.lastN = n; gl.n = n;
+    var scene = c.scene === 'mix' ? pick(Object.keys(GL_SCENES)) : c.scene; gl.scene = scene;
+    gl.items = glGen(n, scene); gl.groups = glGroups(gl.items, c.grp);
+    gl.phase = 'ready'; glHeader();
+    glIn.classList.add('hidden'); glMsg.textContent = ''; glMsg.className = 'gm-msg'; glActs.innerHTML = '';
+    glStage.innerHTML = '<div class="gl-cover"><b>Ready</b>Look at the whole picture, don’t count one by one</div>';
+    setTimeout(function () {
+      if (!gl || gl.tok !== tok) return;
+      gl.phase = 'flash'; glStage.innerHTML = glSVG(gl.items, scene, c.aid ? gl.groups : null);
+      if (c.ms > 0) setTimeout(function () { if (gl && gl.tok === tok && gl.phase === 'flash') glAsk(); }, c.ms);
+      else glActs.innerHTML = '<button class="primary-btn" data-gla="hide">I have it, hide the picture</button>';
+    }, 700 + rand(800));
+  }
+  function glAsk() {
+    gl.phase = 'ask'; gl.t0 = performance.now();
+    glStage.innerHTML = '<div class="gl-cover"><b>?</b>How many were there?</div>';
+    glIn.classList.remove('hidden'); glIn.value = ''; glIn.focus();
+    glActs.innerHTML = '<button class="primary-btn" data-gla="go">Check (Enter)</button>';
+  }
+  function glSubmit() {
+    if (!gl || gl.phase !== 'ask') return;
+    var v = glIn.value.replace(/\D/g, ''); if (!v) return;
+    var a = +v, n = gl.n, diff = a - n, pct = Math.abs(diff) / n * 100, rt = Math.round(performance.now() - gl.t0);
+    gl.phase = 'result'; gl.rounds++; if (!diff) gl.exact++;
+    gmRecord('gl', { lv: gl.cfg.lv, lo: glRange(gl.cfg)[0], hi: glRange(gl.cfg)[1], n: n, a: a, fl: gl.cfg.ms, sc: gl.scene, e: Math.round(pct * 10) / 10 });
+    var g = gl.cfg.grp, full = Math.floor(n / g), rem = n % g, col = !diff ? '#56d364' : (pct <= 5 ? '#56d364' : (pct <= 15 ? '#f2cc60' : '#ff7b72'));
+    glIn.classList.add('hidden');
+    glStage.innerHTML = glSVG(gl.items, gl.scene, gl.groups);
+    glMsg.innerHTML = (!diff ? '<b style="color:' + col + '">Exact!</b> ' + n : 'You said <b>' + a + '</b>, there were <b style="color:' + col + '">' + n + '</b> (' + (diff > 0 ? '+' : '') + diff + ', ' + pct.toFixed(0) + '% ' + (diff > 0 ? 'high' : 'low') + ')') +
+      '<br><span style="font-size:12px">' + full + ' chunk' + (full === 1 ? '' : 's') + ' of ' + g + (rem ? ' + ' + rem : '') + ' = ' + n + ' · answered in ' + (rt / 1000).toFixed(1) + 's</span>';
+    glActs.innerHTML = '<button class="primary-btn" data-gla="next">Next (Enter)</button><button class="secondary-btn" data-gla="end">Finish</button>';
+    glHeader();
+  }
+  glActs.addEventListener('click', function (e) {
+    var b = e.target, a = b && b.getAttribute ? b.getAttribute('data-gla') : null; if (!a || !gl) return;
+    if (a === 'hide') { if (gl.phase === 'flash') glAsk(); } else if (a === 'go') glSubmit(); else if (a === 'next') glRound(); else if (a === 'end') { glStop(); openGlSetup(); }
+  });
+  glIn.addEventListener('input', function () { glIn.value = glIn.value.replace(/\D/g, '').slice(0, 4); });
+  glIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); glSubmit(); } });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && gl && gl.phase === 'result' && curView === 'gl-view') { e.preventDefault(); glRound(); }
+    else if (e.key === 'Enter' && gl && gl.phase === 'flash' && gl.cfg.ms === 0 && curView === 'gl-view') glAsk();
+  });
+  $('gl-end').addEventListener('click', function () { glStop(); openGlSetup(); });
+  function glStats() {
+    var a = store.extra.gl || [], h = '';
+    if (!a.length) return '<div class="empty-note">No rounds yet.</div>';
+    for (var lv = 0; lv <= 6; lv++) {
+      var r = a.filter(function (x) { return x.lv === lv; }); if (!r.length) continue;
+      var ex = r.filter(function (x) { return x.n === x.a; }).length, close = r.filter(function (x) { return x.e <= 10; }).length, errs = r.map(function (x) { return x.e; });
+      var recent = errs.slice(-10), avg = recent.reduce(function (p, q) { return p + q; }, 0) / recent.length;
+      h += '<div class="st-row"><b>' + (lv >= 6 ? 'Custom' : GL_LV[lv][0] + ' ' + GL_LV[lv][1] + '–' + GL_LV[lv][2]) + '</b><span>' + ex + ' exact · ' + Math.round(close / r.length * 100) + '% within 10% · ' + r.length + ' rounds</span><span class="tr">typical miss ' + avg.toFixed(1) + '% (last ' + recent.length + ')</span>' + spark(errs.slice(-20)) + '</div>';
+    }
+    return h;
+  }
 
   // ---------- views ----------
-  var VIEWS = ['menu-view', 'setup-view', 'game-view', 'end-view', 'stats-view', 'extras-view', 'cards-setup-view', 'cards-view', 'cards-recall-view', 'pi-view', 'exam-setup-view', 'exam-view', 'exam-report-view', 'sprint-setup-view', 'ref-view', 'gm-hub-view', 'gm-setup-view', 'gm-play-view'];
+  var VIEWS = ['menu-view', 'setup-view', 'game-view', 'end-view', 'stats-view', 'extras-view', 'cards-setup-view', 'cards-view', 'cards-recall-view', 'pi-view', 'exam-setup-view', 'exam-view', 'exam-report-view', 'sprint-setup-view', 'ref-view', 'gm-hub-view', 'gm-setup-view', 'gm-play-view', 'nim-setup-view', 'nim-view', 'gl-setup-view', 'gl-view'];
   var curView = 'menu-view';
   function showView(id) {
     curView = id;
