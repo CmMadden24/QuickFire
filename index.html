@@ -1063,6 +1063,8 @@ input,textarea,select{font-size:16px}
   }
 
   // ---------- small helpers ----------
+  // Bring the keyboard back even if the box is still (invisibly) the focused element, e.g. after pausing.
+  function kb(el) { try { if (document.activeElement === el) el.blur(); el.focus(); } catch (e) {} }
   function rand(n) { return Math.floor(Math.random() * n); }
   function rec(key) { return facts[key] || (facts[key] = blankRec()); }
   function isWeak(r) { return !!r && (r.m > 0 || r.sl); }
@@ -1634,7 +1636,7 @@ input,textarea,select{font-size:16px}
     inputKind = ik;
     banner.className = ''; banner.innerHTML = ''; banner.style.opacity = '0';
     knowBtn.classList.add('hidden');
-    inputArea.readOnly = false; inputArea.value = ''; inputArea.focus();
+    inputArea.readOnly = false; inputArea.value = ''; kb(inputArea);
     submitBtn.textContent = 'Submit'; submitBtn.disabled = false;
     pauseBtn.innerHTML = '&#10074;&#10074;';
     setStage(f);
@@ -1888,7 +1890,7 @@ input,textarea,select{font-size:16px}
     if (state !== 'paused') return;
     state = 'running';
     canvas.textContent = cur.text; fitCanvas();
-    inputArea.readOnly = false; inputArea.focus();
+    inputArea.readOnly = false; kb(inputArea);
     deadline = performance.now() + remaining;
     runClock();
     submitBtn.textContent = 'Submit';
@@ -2645,7 +2647,7 @@ input,textarea,select{font-size:16px}
     if (!ex || !ex.paused) return;
     ex.paused = false; ex.last = performance.now();
     exCanvas.textContent = ex.cur ? ex.cur.text : ''; exFit();
-    exInput.readOnly = false; exInput.focus();
+    exInput.readOnly = false; kb(exInput);
     $('ex-submit').textContent = 'Submit'; $('ex-pause').innerHTML = '&#10074;&#10074;';
   }
   exInput.addEventListener('input', function () {
@@ -3181,7 +3183,7 @@ input,textarea,select{font-size:16px}
     gmInput.setAttribute('inputmode', mode === 'text' ? 'text' : 'numeric');
     gmInput.setAttribute('maxlength', mode === 'text' ? String(gm.cfg.len) : '9');
     gmInput.placeholder = mode === 'text' ? 'Type a word...' : 'Total...';
-    gmInput.value = ''; gmInput.focus();
+    gmInput.value = ''; kb(gmInput);
   }
   function gmNext() {
     if (!gm) return;
@@ -3203,7 +3205,7 @@ input,textarea,select{font-size:16px}
     if (!gm || !gm.paused) return;
     gm.paused = false; gm.last = performance.now(); gmStage.innerHTML = gm.saved || '';
     gmPad.classList.remove('hidden'); gmInput.readOnly = false; $('gm-pause').innerHTML = '&#10074;&#10074;';
-    if (!gmInput.classList.contains('hidden')) gmInput.focus();
+    if (!gmInput.classList.contains('hidden')) kb(gmInput);
   }
   $('gm-pause').addEventListener('click', function () { if (gm && gm.paused) gmResume(); else gmPause(); });
   function gmHome(g) { if (g === 'add') openExtras(); else openGamesHub(); }
@@ -3338,6 +3340,8 @@ input,textarea,select{font-size:16px}
   document.addEventListener('keydown', function (e) {
     if (curView !== 'gm-play-view' || !gm) return;
     var k = e.key;
+    // Enter moves on after a finished question, wherever a primary Next / Again button is showing.
+    if (k === 'Enter' && !e.repeat && !gm.live && !gm.paused && gmActs.querySelector('.primary-btn[data-act="next"]')) { e.preventDefault(); gmNext(); return; }
     if (gm.game === 'ana') { if (k === 'Enter') { e.preventDefault(); if (gm.live) anaCheck(gmInput.value.toLowerCase(), true); } return; }
     if (gm.game === 'rom') { if (k === 'Enter' && gm.live && gmInput.value) { e.preventDefault(); romDone(gmInput.value.toUpperCase() === gm.p.ans, gmInput.value); } return; }
     if (gm.game === 'add') { if (k === 'Enter' && gm.phase === 'answer') { e.preventDefault(); addDone(gmInput.value.replace(/\D/g, '')); } return; }
@@ -3952,6 +3956,11 @@ input,textarea,select{font-size:16px}
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' && gl && gl.phase === 'result' && curView === 'gl-view') { e.preventDefault(); glRound(); }
     else if (e.key === 'Enter' && gl && gl.phase === 'flash' && gl.cfg.ms === 0 && curView === 'gl-view') glAsk();
+  });
+  document.addEventListener('keydown', function (e) {   // Nim: Enter confirms the take / moves on
+    if (e.key !== 'Enter' || e.repeat || curView !== 'nim-view' || !nm) return;
+    var b = nActs.querySelector('[data-act="take"]:not([disabled]),[data-act="next"],[data-act="again"]');
+    if (b) { e.preventDefault(); b.click(); }
   });
   $('gl-end').addEventListener('click', function () { glStop(); openGlSetup(); });
   function glStats() {
